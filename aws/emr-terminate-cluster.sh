@@ -8,4 +8,9 @@ else
     sudo apt-get install jq
 fi
 
-aws emr terminate-clusters --cluster-ids $(aws emr list-clusters --active | jq -r '.Clusters|.[0]|.Id')
+
+CLUSTER_TO_REMOVE=$(aws emr list-clusters --active | jq -r '.Clusters|.[0]|.Id')
+
+echo "Removing $CLUSTER_TO_REMOVE" 
+
+aws emr terminate-clusters --cluster-ids $CLUSTER_TO_REMOVE
